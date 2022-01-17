@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Authok 社区
+    url: https://community.authok.cn/tags/c/sdks/5/authok-spa-js
+    about: Discuss this SDK in the Authok Community forums
+  - name: FAQ
+    url: https://github.com/authok/authok-spa-js/blob/master/FAQ.md
+    about: Read the FAQ to get answers to common issues
+  - name: SDK API 文档
+    url: https://authok.github.io/authok-spa-js/
+    about: Read the API documentation for this SDK
+  - name: Library 文档
+    url: https://authok.cn/docs/libraries/authok-spa-js
+    about: Read the library docs on Authok.cn

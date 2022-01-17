@@ -1,0 +1,31 @@
+---
+name: Feature request
+about: Suggest an idea or a feature for this project
+title: ''
+labels: feature request
+assignees: ''
+---
+
+<!--
+**Please do not report security vulnerabilities here**. The [Responsible Disclosure Program](https://authok.cn/whitehat) details the procedure for disclosing security issues.
+
+**Thank you in advance for helping us to improve this library!** Your attention to detail here is greatly appreciated and will help us respond as quickly as possible. For general support or usage questions, use the [Authok Community](https://community.authok.cn/) or [Authok Support](https://support.authok.cn/). Finally, to avoid duplicates, please search existing Issues before submitting one here.
+
+By submitting an Issue to this repository, you agree to the terms within the [Authok Code of Conduct](https://github.com/authok/open-source-template/blob/master/CODE-OF-CONDUCT.md).
+-->
+
+### Describe the problem you'd like to have solved
+
+<!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] -->
+
+### Describe the ideal solution
+
+<!-- A clear and concise description of what you want to happen -->
+
+## Alternatives and current work-arounds
+
+<!-- A clear and concise description of any alternatives you've considered or any work-arounds that are currently in place.-->
+
+### Additional context
+
+<!-- Add any other context or screenshots about the feature request here. -->
