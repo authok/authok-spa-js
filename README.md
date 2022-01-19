@@ -1,6 +1,6 @@
 # @authok/authok-spa-js
 
-Authok SDK for Single Page Applications using [Authorization Code Grant Flow with PKCE](https://authok.cn/docs/api-auth/tutorials/authorization-code-grant-pkce).
+针对单页面应用(SPA)的 Authok SDK, 采用 [基于 PKCE 的认证码授权流程](https://docs.authok.cn/api-auth/tutorials/authorization-code-grant-pkce).
 
 [![CircleCI](https://circleci.com/gh/authok/authok-spa-js.svg?style=svg)](https://circleci.com/gh/authok/authok-spa-js)
 ![Release](https://img.shields.io/github/v/release/authok/authok-spa-js)
@@ -8,38 +8,38 @@ Authok SDK for Single Page Applications using [Authorization Code Grant Flow wit
 ![Downloads](https://img.shields.io/npm/dw/@authok/authok-spa-js)
 [![License](https://img.shields.io/:license-mit-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-## Table of Contents
+## 目录
 
 - [@authok/authok-spa-js](#authokauthok-spa-js)
-  - [Table of Contents](#table-of-contents)
+  - [目录](#目录)
   - [文档](#文档)
   - [安装](#安装)
   - [开始](#开始)
     - [Authok 配置](#authok-配置)
-    - [Creating the client](#creating-the-client)
-    - [1 - Login](#1---login)
-    - [2 - Calling an API](#2---calling-an-api)
-    - [3 - Logout](#3---logout)
-    - [Data caching options](#data-caching-options)
-      - [Creating a custom cache](#creating-a-custom-cache)
-    - [Refresh Tokens](#refresh-tokens)
-      - [Refresh Token fallback](#refresh-token-fallback)
+    - [创建 client](#创建-client)
+    - [1 - 登录](#1---登录)
+    - [2 - 调用 API](#2---调用-api)
+    - [3 - 退登(Logout)](#3---退登logout)
+    - [数据缓存选项](#数据缓存选项)
+      - [创建自定义缓存](#创建自定义缓存)
+    - [刷新令牌(Refresh Token)](#刷新令牌refresh-token)
+      - [刷新令牌回退](#刷新令牌回退)
     - [组织](#组织)
-      - [Log in to an organization](#log-in-to-an-organization)
-      - [Accept user invitations](#accept-user-invitations)
-    - [Advanced options](#advanced-options)
-  - [Contributing](#contributing)
-  - [Support + Feedback](#support--feedback)
-  - [Frequently Asked Questions](#frequently-asked-questions)
-  - [Vulnerability Reporting](#vulnerability-reporting)
-  - [What is Authok?](#what-is-authok)
-  - [License](#license)
+      - [登录组织](#登录组织)
+      - [接受用户邀请](#接受用户邀请)
+    - [高级选项](#高级选项)
+  - [贡献](#贡献)
+  - [支持 + 反馈](#支持--反馈)
+  - [常见问题](#常见问题)
+  - [安全风险报告](#安全风险报告)
+  - [Authok 是什么?](#authok-是什么)
+  - [许可](#许可)
 
 ## 文档
 
 - [文档](https://authok.cn/docs/libraries/authok-spa-js)
 - [API 参考](https://authok.github.io/authok-spa-js/)
-- [Migrate from Authok.js to the Authok Single Page App SDK](https://authok.cn/docs/libraries/authok-spa-js/migrate-from-authokjs)
+- [从 Authok.js 升级到 Authok 单页应用 SDK](https://docs.authok.cn/libraries/authok-spa-js/migrate-from-authokjs)
 
 ## 安装
 
@@ -67,27 +67,27 @@ yarn add @authok/authok-spa-js
 
 在 [Authok Dashboard](https://manage.authok.cn/#/applications) 中创建一个 **单页应用** .
 
-> **If you're using an existing application**, verify that you have configured the following settings in your Single Page Application:
+> **如果您使用的现有应用**, 确认您是否在单页应用中做了如下配置:
 >
-> - Click on the "Settings" tab of your application's page.
-> - Ensure that "Token Endpoint Authentication Method" under "Application Properties" is set to "None"
-> - Scroll down and click on the "Show Advanced Settings" link.
-> - Under "Advanced Settings", click on the "OAuth" tab.
-> - Ensure that "JsonWebToken Signature Algorithm" is set to `RS256` and that "OIDC Conformant" is enabled.
+> - 点击应用页面的 "设置" 标签栏.
+> - 确保 "应用属性" 下面的 "Token Endpoint Authentication Method" 设置为 "None"
+> - 滚动到页面下方并点击 "显示高级设置" 链接.
+> - 在 "高级设置" 中点击 "OAuth" 标签.
+> - 确保 "JsonWebToken Signature Algorithm" 设置为 `RS256` 并且 "OIDC Conformant" 是开启的.
 
-Next, configure the following URLs for your application under the "Application URIs" section of the "Settings" page:
+接下来，在应用 >> “设置" >> "应用 URIs" 部分配置如下 URL:
 
 - **Allowed Callback URLs**: `http://localhost:3000`
 - **Allowed Logout URLs**: `http://localhost:3000`
 - **Allowed Web Origins**: `http://localhost:3000`
 
-> These URLs should reflect the origins that your application is running on. **Allowed Callback URLs** may also include a path, depending on where you're handling the callback (see below).
+> 这些 URLs 对应的是应用运行的来源(origin). **Allowed Callback URLs** 还包含应用处理回调的具体路径 (见下文).
 
-Take note of the **Client ID** and **Domain** values under the "Basic Information" section. You'll need these values in the next step.
+注意 "基本信息" 中的 **Client ID** 和 **Domain**. 下一步需要用到这些值.
 
-### Creating the client
+### 创建 client
 
-Create an `AuthokClient` instance before rendering or initializing your application. You should only have one instance of the client.
+在渲染或初始化应用程序之前创建 `AuthokClient` 实例. 您应该仅创建唯一一个 client 实例.
 
 ```js
 import createAuthokClient from '@authok/authok-spa-js';
@@ -108,7 +108,7 @@ createAuthokClient({
   //...
 });
 
-//or, you can just instantiate the client on it's own
+//或者，您可以自行实例化 client
 import { AuthokClient } from '@authok/authok-spa-js';
 
 const authok = new AuthokClient({
@@ -117,7 +117,7 @@ const authok = new AuthokClient({
   redirect_uri: '<MY_CALLBACK_URL>'
 });
 
-//if you do this, you'll need to check the session yourself
+//如果自行实例化，您需要自行检查会话
 try {
   await getTokenSilently();
 } catch (error) {
@@ -127,41 +127,41 @@ try {
 }
 ```
 
-### 1 - Login
+### 1 - 登录
 
 ```html
-<button id="login">Click to Login</button>
+<button id="login">登录</button>
 ```
 
 ```js
 //with async/await
 
-//redirect to the Universal Login Page
+//重定向到统一登录页面
 document.getElementById('login').addEventListener('click', async () => {
   await authok.loginWithRedirect();
 });
 
-//in your callback route (<MY_CALLBACK_URL>)
+//在回调路由中 (<MY_CALLBACK_URL>)
 window.addEventListener('load', async () => {
   const redirectResult = await authok.handleRedirectCallback();
-  //logged in. you can get the user profile like this:
+  //登录成功. 您可以获取用户档案:
   const user = await authok.getUser();
   console.log(user);
 });
 
 //with promises
 
-//redirect to the Universal Login Page
+//重定向到统一登录页面
 document.getElementById('login').addEventListener('click', () => {
   authok.loginWithRedirect().catch(() => {
-    //error while redirecting the user
+    //重定向发生错误
   });
 });
 
-//in your callback route (<MY_CALLBACK_URL>)
+//在回调路由中 (<MY_CALLBACK_URL>)
 window.addEventListener('load', () => {
   authok.handleRedirectCallback().then(redirectResult => {
-    //logged in. you can get the user profile like this:
+    //登录成功. 您可以获取用户档案:
     authok.getUser().then(user => {
       console.log(user);
     });
@@ -169,10 +169,10 @@ window.addEventListener('load', () => {
 });
 ```
 
-### 2 - Calling an API
+### 2 - 调用 API
 
 ```html
-<button id="call-api">Call an API</button>
+<button id="call-api">调用 API</button>
 ```
 
 ```js
@@ -208,10 +208,10 @@ document.getElementById('call-api').addEventListener('click', () => {
 });
 ```
 
-### 3 - Logout
+### 3 - 退登(Logout)
 
 ```html
-<button id="logout">Logout</button>
+<button id="logout">退登</button>
 ```
 
 ```js
@@ -222,7 +222,7 @@ document.getElementById('logout').addEventListener('click', () => {
 });
 ```
 
-You can redirect users back to your app after logging out. This URL must appear in the **Allowed Logout URLs** setting for the app in your [Authok Dashboard](https://manage.authok.cn):
+您可以在注销后将用户重定向回您的应用. 这个 URL 必须在 [Authok Dashboard](https://manage.authok.cn) >> 应用 >> **Allowed Logout URLs** 中进行配置:
 
 ```js
 authok.logout({
@@ -230,11 +230,11 @@ authok.logout({
 });
 ```
 
-### Data caching options
+### 数据缓存选项
 
-The SDK can be configured to cache ID tokens and access tokens either in memory or in local storage. The default is in memory. This setting can be controlled using the `cacheLocation` option when creating the Authok client.
+可以配置 SDK 在内存或本地存储中缓存 ID 令牌和访问令牌. 默认是在内存中. 可以在创建 Authok client 时通过 `cacheLocation` 选项指定.
 
-To use the in-memory mode, no additional options need are required as this is the default setting. To configure the SDK to cache data using local storage, set `cacheLocation` as follows:
+使用内存模式无需进行选项设置. 使用 本地存储(local storage) 模式, 需设置 `cacheLocation`:
 
 ```js
 await createAuthokClient({
@@ -245,24 +245,24 @@ await createAuthokClient({
 });
 ```
 
-**Important:** This feature will allow the caching of data **such as ID and access tokens** to be stored in local storage. Exercising this option changes the security characteristics of your application and **should not be used lightly**. Extra care should be taken to mitigate against XSS attacks and minimize the risk of tokens being stolen from local storage.
+**重要:** 此功能允许将 **ID 和访问令牌** 等数据缓存存储在本地存储中. 使用此选项会给应用程序带来安全风险, 所以 **不要轻易使用**. 应特别注意抵御 XSS 攻击, 避免令牌从本地存储被盗的风险.
 
-#### Creating a custom cache
+#### 创建自定义缓存
 
-The SDK can be configured to use a custom cache store that is implemented by your application. This is useful if you are using this SDK in an environment where more secure token storage is available, such as potentially a hybrid mobile app.
+可以配置 SDK 使用应用自定义缓存. 比如您有更安全的令牌存储可被使用, 例如混合移动应用程序中.
 
-To do this, provide an object to the `cache` property of the SDK configuration.
+通过设置 SDK 配置的 `cache` 属性来进行自定义.
 
-The object should implement the following functions. Note that all of these functions can optionally return a Promise or a static value.
+cache 对象需要实现如下函数. 所有函数都可以返回 Promise 或静态值.
 
-| Signature                        | Return type                    | Description                                                                                                                                                                                                                                                                                        |
-| -------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `get(key)`                       | Promise<object> or object      | Returns the item from the cache with the specified key, or `undefined` if it was not found                                                                                                                                                                                                         |
-| `set(key: string, object: any) ` | Promise<void> or void          | Sets an item into the cache                                                                                                                                                                                                                                                                        |
-| `remove(key)`                    | Promise<void> or void          | Removes a single item from the cache at the specified key, or no-op if the item was not found                                                                                                                                                                                                      |
-| `allKeys()`                      | Promise<string[]> or string [] | (optional) Implement this if your cache has the ability to return a list of all keys. Otherwise, the SDK internally records its own key manifest using your cache. **Note**: if you only want to ensure you only return keys used by this SDK, the keys we use are prefixed with `@@authokspajs@@` |
+| 签名                             | 返回值                         | 描述                                                                                                                                                                                                  |
+| -------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `get(key)`                       | Promise<object> 或 object      | 返回找到的对象, 没有找到返回 `undefined`                                                                                                                                                              |
+| `set(key: string, object: any) ` | Promise<void> 或 void          | 设置条目到缓存                                                                                                                                                                                        |
+| `remove(key)`                    | Promise<void> 或 void          | 从缓存删除条目, 条目未找到不作任何处理                                                                                                                                                                |
+| `allKeys()`                      | Promise<string[]> 或 string [] | (可选) 如果您的缓存可以返回所有缓存条目的 key 列表. 否则，SDK 会在内部自行记录 key 清单. **注意**: SDK 使用的 key 带有前缀 `@@authokspajs@@`, 如果您只想返回此 SDK 使用的 key, 可以通过此前缀进行过滤 |
 
-Here's an example of a custom cache implementation that uses `sessionStorage` to store tokens and apply it to the Authok SPA SDK:
+下面是一个自定义缓存的示例, 它使用 `sessionStorage`:
 
 ```js
 const sessionStorageCache = {
@@ -292,15 +292,15 @@ await createAuthokClient({
 });
 ```
 
-**Note:** The `cache` property takes precedence over the `cacheLocation` property if both are set. A warning is displayed in the console if this scenario occurs.
+**注意:** 如果 `cache` 和 `cacheLocation` 都设置的情况下 `cache` 优先级更高. 同时设置的情况下控制台会出现警告.
 
-We also export the internal `InMemoryCache` and `LocalStorageCache` implementations, so you can wrap your custom cache around these implementations if you wish.
+我们同样暴露了 `InMemoryCache` 和 `LocalStorageCache` 的实现, 这样便于您参考实现.
 
-### Refresh Tokens
+### 刷新令牌(Refresh Token)
 
-Refresh tokens can be used to request new access tokens. [Read more about how our refresh tokens work for browser-based applications](https://authok.cn/docs/tokens/concepts/refresh-token-rotation) to help you decide whether or not you need to use them.
+刷新令牌被用于请求新的访问令牌. [了解刷新令牌如何用于浏览器应用](https://authok.cn/docs/tokens/concepts/refresh-token-rotation) 来帮助您决定是否需要使用它们.
 
-To enable the use of refresh tokens, set the `useRefreshTokens` option to `true`:
+要使用刷新令牌, 需设置 `useRefreshTokens` 选项为 `true`:
 
 ```js
 await createAuthokClient({
@@ -311,25 +311,26 @@ await createAuthokClient({
 });
 ```
 
-此设置会让 SDK 自动发送 `offline_access` scope 到授权服务器. Refresh tokens 将会被用于交换新的 access tokens, 直接调用 `/oauth/token` 端点而非使用隐藏 iframe. 这意味着多数情况下 SDK 在使用 refresh tokens 时 不需要依赖第三方 cookies.
+此设置会让 SDK 自动发送 `offline_access` scope 到授权服务器. 刷新令牌 会被用于交换新的 访问令牌, 直接调用 `/oauth/token` 端点而非使用隐藏 iframe. 这意味着多数情况下 SDK 在使用 刷新令牌 时 不需要依赖第三方 cookies.
 
-**注意** 此配置选项需要 Rotating Refresh Tokens [为你的 Authok 租户开启](https://authok.cn/docs/tokens/guides/configure-refresh-token-rotation).
+**注意** 此配置选项需要 [为你的 Authok 租户开启](https://docs.authok.cn/tokens/guides/configure-refresh-token-rotation) 轮换刷新令牌.
 
-#### Refresh Token fallback
+#### 刷新令牌回退
 
-In all cases where a refresh token is not available, the SDK falls back to the legacy technique of using a hidden iframe with `prompt=none` to try and get a new access token and refresh token. This scenario would occur for example if you are using the in-memory cache and you have refreshed the page. In this case, any refresh token that was stored previously would be lost.
+在刷新令牌不可用的情况下, SDK 会回退到使用传统技术方案, 即使用带有 `prompt=none` 的隐藏 iframe 来尝试获取新的访问令牌和刷新令牌.
+例如，如果您正在使用内存缓存并且刷新了页面，就会出现这种情况。在这种情况下，以前存储的任何刷新令牌都将丢失.
 
-If the fallback mechanism fails, a `login_required` error will be thrown and could be handled in order to put the user back through the authentication process.
+如果回退机制失败，将抛出一个 `login_required` 错误，可以对其进行处理，以便让用户重新进行身份验证.
 
-**Note**: This fallback mechanism does still require access to the Authok session cookie, so if third-party cookies are being blocked then this fallback will not work and the user must re-authenticate in order to get a new refresh token.
+**注意**: 此回退机制仍然需要访问 Authok 的会话 cookie，因此如果第三方 cookie 被阻止，则回退将不起作用，用户必须重新验证才能获得新的刷新令牌.
 
 ### 组织
 
-[组织](https://authok.cn/docs/organizations) is a set of features that provide better support for developers who build and maintain SaaS and Business-to-Business (B2B) applications.
+[组织](https://docs.authok.cn/organizations) 主要便于开发和维护 SaaS 和 B2B 应用.
 
-#### Log in to an organization
+#### 登录组织
 
-Log in to an organization by specifying the `organization` parameter when setting up the client:
+通过指定 client 的 `organization` 选项来登录组织:
 
 ```js
 createAuthokClient({
@@ -340,23 +341,24 @@ createAuthokClient({
 });
 ```
 
-You can also specify the organization when logging in:
+也可以在登录时指定组织:
 
 ```js
-// Using a redirect
+// 使用重定向
 client.loginWithRedirect({
   organization: '<MY_ORG_ID>'
 });
 
-// Using a popup window
+// 使用弹出窗
 client.loginWithPopup({
   organization: '<MY_ORG_ID>'
 });
 ```
 
-#### Accept user invitations
+#### 接受用户邀请
 
-Accept a user invitation through the SDK by creating a route within your application that can handle the user invitation URL, and log the user in by passing the `organization` and `invitation` parameters from this URL. You can either use `loginWithRedirect` or `loginWithPopup` as needed.
+通过 SDK 接受用户邀请, 方法是在应用程序中创建可处理用户邀请 URL 的路由,
+并通过从此 URL 传递“organization”和“invitation”参数来登录用户。您可以根据需要使用 `loginWithRedirect` 或 `loginWithPopup`.
 
 ```js
 const url = new URL(invitationUrl);
@@ -372,53 +374,53 @@ if (organization && invitation) {
 }
 ```
 
-### Advanced options
+### 高级选项
 
-Advanced options can be set by specifying the `advancedOptions` property when configuring `AuthokClient`. Learn about the complete set of advanced options in the [API documentation](https://authok.github.io/authok-spa-js/interfaces/advancedoptions.html)
+可以在配置 `AuthokClient` 时通过 `advancedOptions` 属性来配置 高级选项. 参考 [API 文档](https://authok.github.io/authok-spa-js/interfaces/advancedoptions.html) 来了解高级选项的完整设置.
 
 ```js
 createAuthokClient({
   domain: '<AUTHOK_DOMAIN>',
   client_id: '<AUTHOK_CLIENT_ID>',
   advancedOptions: {
-    defaultScope: 'email' // change the scopes that are applied to every authz request. **Note**: `openid` is always specified regardless of this setting
+    defaultScope: 'email' // 修改每个 authz 请求的 scopes. **注意**: `openid` 始终都会被指定
   }
 });
 ```
 
-## Contributing
+## 贡献
 
-We appreciate feedback and contribution to this repo! Before you get started, please see the following:
+感谢所有对本仓库的返回和贡献! 在开始之前，先参考:
 
-- [Authok's general contribution guidelines](https://github.com/authok/open-source-template/blob/master/GENERAL-CONTRIBUTING.md)
-- [Authok's code of conduct guidelines](https://github.com/authok/open-source-template/blob/master/CODE-OF-CONDUCT.md)
-- [This repo's contribution guide](https://github.com/authok/authok-spa-js/blob/master/CONTRIBUTING.md)
+- [Authok 的一般贡献指南](https://github.com/authok/open-source-template/blob/main/GENERAL-CONTRIBUTING.md)
+- [Authok 的行为准则指南](https://github.com/authok/open-source-template/blob/main/CODE-OF-CONDUCT.md)
+- [本仓库的贡献指南](https://github.com/authok/authok-spa-js/blob/main/CONTRIBUTING.md)
 
-## Support + Feedback
+## 支持 + 反馈
 
-For support or to provide feedback, please [raise an issue on our issue tracker](https://github.com/authok/authok-spa-js/issues).
+如需支持或提供反馈, 请 [在我们的问题追踪器上提出问题](https://github.com/authok/authok-spa-js/issues).
 
-## Frequently Asked Questions
+## 常见问题
 
-For a rundown of common issues you might encounter when using the SDK, please check out [the FAQ](https://github.com/authok/authok-spa-js/blob/master/FAQ.md).
+有关使用 SDK 时可能遇到的常见问题，请查看[the FAQ](https://github.com/authok/authok-spa-js/blob/master/FAQ.md).
 
-## Vulnerability Reporting
+## 安全风险报告
 
-Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://authok.cn/whitehat) details the procedure for disclosing security issues.
+请不要在公共 GitHub 问题跟踪器上报告安全漏洞. [Responsible Disclosure Program](https://authok.cn/whitehat)  详细说明了披露安全问题的流程.
 
-## What is Authok?
+## Authok 是什么?
 
-Authok helps you to easily:
+Authok 可以帮助您:
 
-- implement authentication with multiple identity providers, including social (e.g., Google, Facebook, Microsoft, LinkedIn, GitHub, Twitter, etc), or enterprise (e.g., Windows Azure AD, Google Apps, Active Directory, ADFS, SAML, etc.)
-- log in users with username/password databases, passwordless, or multi-factor authentication
-- link multiple user accounts together
-- generate signed JSON Web Tokens to authorize your API calls and flow the user identity securely
-- access demographics and analytics detailing how, when, and where users are logging in
-- enrich user profiles from other data sources using customizable JavaScript rules
+- 使用多个身份提供者进行身份认证, 包括 社会化 (例如, 微信, 企业微信, 支付宝, 抖音, 微博, Google, Facebook, Microsoft, LinkedIn, GitHub, Twitter), 或者 企业 (例如, Windows Azure AD, Google Apps, Active Directory, ADFS, SAML)
+- 通过 用户名/密码 数据库, 免密模式, 多因素认证 等多种模式进行登录
+- 连接多个用户账号
+- 生成签名的 JSON Web 令牌以授权 API 调用并安全地传递用户身份
+- 登录方式、时间和地点等统计和分析
+- 使用可定制的 JavaScript 规则从其他数据源丰富用户档案
 
-[Why Authok?](https://authok.cn/why-authok)
+[为什么使用 Authok?](https://authok.cn/why-authok)
 
-## License
+## 许可
 
-This project is licensed under the MIT license. See the [LICENSE](https://github.com/authok/authok-spa-js/blob/master/LICENSE) file for more info.
+本项目基于 MIT 许可. 参考 [LICENSE](https://github.com/authok/authok-spa-js/blob/master/LICENSE) 以了解更多信息.
