@@ -647,7 +647,7 @@ export default class AuthokClient {
     const transaction = this.transactionManager.get();
 
     if (!transaction) {
-      throw new Error('Invalid state');
+      throw new Error('Invalid state, transaction not found');
     }
 
     this.transactionManager.remove();
@@ -666,7 +666,8 @@ export default class AuthokClient {
       !transaction.code_verifier ||
       (transaction.state && transaction.state !== state)
     ) {
-      throw new Error('Invalid state');
+      console.error(`state: ${state}, transaction.state: ${transaction.state}`);
+      throw new Error('Invalid state, state not match');
     }
 
     const tokenOptions = {
