@@ -3,7 +3,7 @@
   "name": "@authok/authok-spa-js",
   "description": "Authok SDK for Single Page Applications using Authorization Code Grant Flow with PKCE",
   "license": "MIT",
-  "version": "1.19.6",
+  "version": "1.19.7",
   "main": "dist/lib/authok-spa-js.cjs.js",
   "types": "dist/typings/index.d.ts",
   "module": "dist/authok-spa-js.production.esm.js",

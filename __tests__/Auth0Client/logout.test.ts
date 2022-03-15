@@ -96,7 +96,7 @@ describe('AuthokClient', () => {
       authok.logout();
 
       expect(window.location.assign).toHaveBeenCalledWith(
-        `https://${TEST_DOMAIN}/logout?client_id=${TEST_CLIENT_ID}${TEST_AUTHOK_CLIENT_QUERY_STRING}`
+        `https://${TEST_DOMAIN}/v1/logout?client_id=${TEST_CLIENT_ID}${TEST_AUTHOK_CLIENT_QUERY_STRING}`
       );
     });
 
@@ -106,7 +106,7 @@ describe('AuthokClient', () => {
       authok.logout({ federated: true });
 
       expect(window.location.assign).toHaveBeenCalledWith(
-        `https://${TEST_DOMAIN}/logout?client_id=${TEST_CLIENT_ID}${TEST_AUTHOK_CLIENT_QUERY_STRING}&federated`
+        `https://${TEST_DOMAIN}/v1/logout?client_id=${TEST_CLIENT_ID}${TEST_AUTHOK_CLIENT_QUERY_STRING}&federated`
       );
     });
 

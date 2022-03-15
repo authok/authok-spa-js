@@ -74,7 +74,7 @@ describe('AuthokClient', () => {
 
       const url = authok.buildLogoutUrl();
 
-      assertUrlEquals(url, TEST_DOMAIN, '/logout', {
+      assertUrlEquals(url, TEST_DOMAIN, '/v1/logout', {
         client_id: TEST_CLIENT_ID
       });
     });
@@ -91,7 +91,7 @@ describe('AuthokClient', () => {
 
       const url = authok.buildLogoutUrl({ client_id: 'another-client-id' });
 
-      assertUrlEquals(url, TEST_DOMAIN, '/logout', {
+      assertUrlEquals(url, TEST_DOMAIN, '/v1/logout', {
         client_id: 'another-client-id'
       });
     });
@@ -104,7 +104,7 @@ describe('AuthokClient', () => {
         client_id: null
       });
 
-      assertUrlEquals(url, TEST_DOMAIN, '/logout', {
+      assertUrlEquals(url, TEST_DOMAIN, '/v1/logout', {
         return_to: 'https://return.to'
       });
     });
@@ -114,7 +114,7 @@ describe('AuthokClient', () => {
 
       const url = authok.buildLogoutUrl({ federated: true, client_id: null });
 
-      assertUrlEquals(url, TEST_DOMAIN, '/logout', {
+      assertUrlEquals(url, TEST_DOMAIN, '/v1/logout', {
         federated: ''
       });
     });

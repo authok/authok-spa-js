@@ -978,7 +978,7 @@ export default class AuthokClient {
 
     const { federated, ...logoutOptions } = options;
     const federatedQuery = federated ? `&federated` : '';
-    const url = this._url(`/logout?${createQueryParams(logoutOptions)}`);
+    const url = this._url(`/v1/logout?${createQueryParams(logoutOptions)}`);
 
     return url + federatedQuery;
   }
